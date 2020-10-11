@@ -18,7 +18,7 @@ const Navbar = () => {
           <li className={styles.Link}>Link 4</li>
         </ul>
         <div className={styles.CallButton}>
-          <span>+44 222 111 999</span>
+          <span>&#128222; +44 222 111 999</span>
         </div>
       </div>
     </div>
