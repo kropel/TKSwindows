@@ -1,0 +1,80 @@
+$height: 65px;
+
+.Wrapper {
+  background-color: burlywood;
+  width: 100%;
+  height: $height;
+  display: flex;
+  justify-content: center;
+
+
+
+  .Navbar {
+    background-color: rgba($color: #000000, $alpha: 0.2);
+    flex: 0 1 1140px;
+    display: flex;
+    justify-content: space-between;
+
+
+    overflow: hidden;
+    max-height: $height;
+
+    .Logo {
+      flex: 1;
+      max-height: $height;
+
+      img {
+        max-height: $height;
+      }
+
+    }
+
+    .Menu {
+      background-color: rgba($color: #000000, $alpha: 0.2);
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      flex: 2;
+      display: flex;
+
+
+      .Link {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        border-bottom: 1px solid transparent;
+      }
+
+      .Link:hover {
+        border-bottom: 2px solid #341b79;
+      }
+    }
+
+    .CallButton {
+      flex: 1;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+  }
+}
+
+@media (min-width: 576px) {
+  .Navbar {
+    flex-basis: 540px;
+  }
+}
+
+@media (min-width: 992px) {
+  .Navbar {
+    flex-basis: 960px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .Navbar {
+    flex-basis: 1140px;
+  }
+}
