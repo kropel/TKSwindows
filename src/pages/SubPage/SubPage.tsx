@@ -7,8 +7,9 @@ import { Title } from '../../components/Title/Title';
 import { Content } from '../../components/Content/Content';
 
 import Grid from '@material-ui/core/Grid';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 interface IParams {
   category: string;
@@ -37,18 +38,26 @@ const useStyle = makeStyles((theme) => {
 });
 export const SubPage = () => {
   const classes = useStyle();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const { category, subPage } = useParams<IParams>();
   const sideBarLinks = PageSvc.getSideBarLinks(category);
   const page = PageSvc.getSubPage(category, subPage);
 
   return (
-    <Grid item container className={classes.container} justify="center" alignContent="flex-start">
+    <Grid
+      item
+      container
+      className={classes.container}
+      justify="center"
+      alignContent="flex-start"
+    >
       <Grid item container xs={12} justify="center">
         <Title title={category} subTitle={page?.title} />
       </Grid>
 
       <Content>
-        {sideBarLinks && (
+        {!isMobile && sideBarLinks && (
           <Grid item container sm={4} justify="center" className={classes.SideBar}>
             <SideBar sideBarLinks={sideBarLinks} />
           </Grid>
@@ -57,7 +66,10 @@ export const SubPage = () => {
         <Grid item container sm={10} md={10} lg={8}>
           <Grid item container>
             <Typography>
-              <div className={classes.Paragraph} dangerouslySetInnerHTML={{ __html: page?.content || '' }} />
+              <div
+                className={classes.Paragraph}
+                dangerouslySetInnerHTML={{ __html: page?.content || '' }}
+              />
             </Typography>
           </Grid>
         </Grid>

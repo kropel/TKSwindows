@@ -1,16 +1,17 @@
 import React from 'react';
-
 import { useLocation } from 'react-router-dom';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-import { makeStyles } from '@material-ui/core/styles';
-import Box from '@material-ui/core/Box';
 
 import { PageSvc } from '../../services/PageSvc';
 import { SideBar } from '../../components/SideBar/SideBar';
 import { Title } from '../../components/Title/Title';
 import { Content } from '../../components/Content/Content';
+
+import Divider from '@material-ui/core/Divider';
+import Box from '@material-ui/core/Box';
+import Grid from '@material-ui/core/Grid';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const useStyle = makeStyles((theme) => {
   const colorSecondary = '#000';
@@ -38,6 +39,8 @@ const useStyle = makeStyles((theme) => {
 
 export const Page = () => {
   const classes = useStyle();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   const location = useLocation();
   const pathname = location.pathname.slice(1);
@@ -60,7 +63,10 @@ export const Page = () => {
             </Typography>
           )}
           <Typography>
-            <div className={classes.Paragraph} dangerouslySetInnerHTML={{ __html: page.content }} />
+            <div
+              className={classes.Paragraph}
+              dangerouslySetInnerHTML={{ __html: page.content }}
+            />
           </Typography>
 
           {divider && <Divider style={{ width: '90%', marginBottom: 30 }} />}
@@ -77,8 +83,16 @@ export const Page = () => {
         <Title title={categoryName!} />
       </Grid>
       <Content>
-        {sideBarLinks && (
-          <Grid item container sm={2} md={2} lg={3} justify="center" className={classes.SideBar}>
+        {!isMobile && sideBarLinks && (
+          <Grid
+            item
+            container
+            sm={2}
+            md={2}
+            lg={3}
+            justify="center"
+            className={classes.SideBar}
+          >
             <SideBar sideBarLinks={sideBarLinks} />
           </Grid>
         )}

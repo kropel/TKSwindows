@@ -80,8 +80,6 @@ export const ThemeContextProvider: FC<PropsWithChildren<{}>> = ({ children }) =>
     } else {
       themeCurrent[key] = `${themeProp[key]}`;
     }
-    console.log(themeCurrent);
-    console.log(theme);
     setTheme({ ...theme, ...themeCurrent });
   };
 

@@ -30,6 +30,14 @@
   width: auto;
   height: auto;
   display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 1.2s ease-out 0.2s;
+}
+.Image:hover {
+  transform: translate(-50%, -50%) scale(1.1);
 }
 :root {
   --delay: 0.5s;

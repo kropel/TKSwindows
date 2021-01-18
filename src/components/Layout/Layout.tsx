@@ -1,8 +1,5 @@
 import React from 'react';
 import { Switch, Route } from 'react-router';
-import bgPng from '../../assets/background/bg.png';
-import bgPng1 from '../../assets/background/bg1.png';
-import bgPng2 from '../../assets/background/bg2.png';
 
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
@@ -16,7 +13,7 @@ import { Contact } from '../../pages/Contact/Contact';
 
 const useStyles = makeStyles((theme) => {
   return {
-    page: { minHeight: '100vh' },
+    page: { minHeight: '100vh', maxWidth: 2000 },
     Content: {
       flex: 1,
       marginTop: 105,
@@ -24,9 +21,10 @@ const useStyles = makeStyles((theme) => {
     },
     footer: {},
     body: {
+      display: 'flex',
+      justifyContent: 'center',
       backgroundColor: 'rgb(223,223,223)',
-      backgroundImage: `
-      linear-gradient(45deg, rgba(223,223,223,1) 0%, rgba(230,230,230,1) 26%, rgba(255,255,255,1) 43%, rgba(214,214,214,1) 53%, rgba(236,235,235,1) 71%, rgba(175,175,175,1) 100%)`,
+      backgroundImage: `linear-gradient(45deg, rgba(223,223,223,1) 0%, rgba(230,230,230,1) 26%, rgb(247 247 247) 43%, rgba(214,214,214,1) 53%, rgba(236,235,235,1) 71%, rgba(175,175,175,1) 100%)`,
       backgroundRepeat: 'repeat',
       backgroundSize: '250%',
       animation: '$bgAnimation 120s linear infinite',
@@ -56,7 +54,7 @@ export const Layout = () => {
 
   return (
     <div className={classes.body}>
-      <Grid container direction="column" className={classes.page} justify="flex-start">
+      <Grid container direction="column" className={classes.page} justify="center">
         <Grid container item>
           <Header />
         </Grid>

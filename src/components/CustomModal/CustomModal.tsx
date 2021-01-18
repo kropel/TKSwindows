@@ -16,8 +16,8 @@ const useStyles = makeStyles((theme: Theme) => {
       display: 'inline-flex',
       alignItems: 'center',
       justifyContent: 'center',
-      height: '90%',
-      width: '90%',
+      height: '100%',
+      width: '100%',
       overflow: 'hidden',
       position: 'relative',
     },
@@ -47,11 +47,7 @@ interface Props {
   closeFunction: () => void;
 }
 
-export const CustomModal: FC<PropsWithChildren<Props>> = ({
-  children,
-  visible,
-  closeFunction,
-}) => {
+export const CustomModal: FC<PropsWithChildren<Props>> = ({ children, visible, closeFunction }) => {
   const classes = useStyles();
 
   const handleClose = () => {

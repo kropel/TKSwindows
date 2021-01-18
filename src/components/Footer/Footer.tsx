@@ -2,7 +2,7 @@ import React from 'react';
 import { useHistory } from 'react-router';
 
 import { PageSvc } from '../../services/PageSvc';
-import { Logo } from '../../Logo/Logo';
+import { Logo } from '../Logo/Logo';
 
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';

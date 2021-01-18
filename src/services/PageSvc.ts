@@ -11,6 +11,18 @@ export type TCategoryLink = {
   url: string;
 };
 
+export interface IContact {
+  address: {
+    street: string;
+    district: string;
+    city: string;
+    zip: string;
+  };
+  phones: string[];
+  email: string;
+  companyName: string;
+}
+
 export class PageSvc {
   static async getGalleryImagesUrl() {
     try {
@@ -36,7 +48,9 @@ export class PageSvc {
     return pages.map((page) => ({ title: page.category, url: page.url }));
   }
   static getSubPage(categoryUrl: string, subPageUrl: string): IPage | undefined {
-    return PageSvc.getCategory(categoryUrl)?.subPages.find((page) => page.url === subPageUrl);
+    return PageSvc.getCategory(categoryUrl)?.subPages.find(
+      (page) => page.url === subPageUrl
+    );
   }
   static getSideBarLinks(categoryUrl: string): TSideBarLink[] | null {
     const category = PageSvc.getCategory(categoryUrl);

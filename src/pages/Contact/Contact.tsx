@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 
 import { ContactForm } from '../../components/ContactForm/ContactForm';
 import { Title } from '../../components/Title/Title';
@@ -9,7 +9,7 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import CallOutlinedIcon from '@material-ui/icons/CallOutlined';
 import EmailOutlinedIcon from '@material-ui/icons/EmailOutlined';
-import { PageSvc } from '../../services/PageSvc';
+import { PageSvc, IContact } from '../../services/PageSvc';
 import Typography from '@material-ui/core/Typography';
 
 const useStyle = makeStyles((theme) => {
@@ -50,7 +50,7 @@ const useStyle = makeStyles((theme) => {
 
 export const Contact: FC = () => {
   const classes = useStyle();
-  const contactData = PageSvc.getContactData();
+  const [contactData] = useState<IContact>(PageSvc.getContactData());
 
   return (
     <Grid item container className={classes.Container}>

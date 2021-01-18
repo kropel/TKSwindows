@@ -1,23 +1,23 @@
 import React from 'react';
 
-import { HomeTitle } from '../../components/HomeTitle/HomeTitle';
 import heroBackground from '../../assets/photos/Home/hero.jpg';
 import heroBackground_800 from '../../assets/photos/Home/hero_800.jpg';
 import heroBackground_600 from '../../assets/photos/Home/hero_600.jpg';
 
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
+import { HomeTitle } from '../../components/HomeTitle/HomeTitle';
 
 const useStyle = makeStyles((theme: Theme) => ({
   Hero: {
     width: '100%',
-    height: 'calc(100vh - 64px)',
+    height: 'calc(100vh - 105px)',
     overflow: 'hidden',
     backgroundImage: `url(${heroBackground})`,
 
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'auto 100%',
-    animation: '$heroBackGroundPosition 120s linear infinite',
+    animation: '$heroBackGroundPosition 80s linear infinite',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'flex-end',
@@ -40,14 +40,16 @@ const useStyle = makeStyles((theme: Theme) => ({
       backgroundPosition: '0% 0%',
     },
   },
-  Title: {},
 }));
 
 export const Home = () => {
   const classes = useStyle();
   return (
     <Box className={classes.Hero}>
-      <Box className={classes.Title}>{/* <HomeTitle>TKS Windows & Doors</HomeTitle> */}</Box>
+      <HomeTitle>
+        We offer to supply and fit European quality windows that protect from temperatures
+        of up to -30C.
+      </HomeTitle>
     </Box>
   );
 };

@@ -1,22 +1,23 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import { Logo } from '../../Logo/Logo';
+
+import { Logo } from '../Logo/Logo';
 import { ThemeContext, IThemeInit } from '../../context/ThemeContext';
+import { PageSvc } from '../../services/PageSvc';
+import { MenuDrawer } from '../MenuDrawer/MenuDrawer';
 
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Button from '@material-ui/core/Button';
-import PhoneIcon from '@material-ui/icons/Phone';
 import Box from '@material-ui/core/Box';
 import Toolbar from '@material-ui/core/Toolbar';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import IconButton from '@material-ui/core/IconButton';
+import PhoneIphoneIcon from '@material-ui/icons/PhoneIphone';
+import PhoneIcon from '@material-ui/icons/Phone';
 import MenuIcon from '@material-ui/icons/Menu';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import { PageSvc } from '../../services/PageSvc';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -25,10 +26,15 @@ const useStyles = makeStyles((theme) => {
       backgroundImage: props.menuBackgroundGradient,
       color: props.menuColor,
       height: 105,
+      display: 'flex',
       justifyContent: 'center',
       [theme.breakpoints.down('sm')]: { height: 56 },
     }),
     toolbar: {
+      maxWidth: 2000,
+      display: 'flex',
+      flexDirection: 'row',
+      flexWrap: 'nowrap',
       alignItems: 'center',
       justifyContent: 'space-around',
       [theme.breakpoints.down('md')]: {
@@ -64,16 +70,21 @@ const useStyles = makeStyles((theme) => {
     Phone: (props: IThemeInit) => ({
       color: props.menuColor,
       borderColor: props.menuColor,
+      margin: 8,
     }),
+    PhonesContainer: {
+      display: 'flex',
+      flexDirection: 'column',
+    },
   };
 });
 
-type menuItem = {
+export type TMenuItem = {
   title: string;
   pageURL: string;
 };
 
-const menuItems: menuItem[] = [
+const menuItems: TMenuItem[] = [
   { title: 'Home', pageURL: '/' },
   { title: 'Windows', pageURL: '/windows' },
   { title: 'Doors', pageURL: '/doors' },
@@ -85,27 +96,24 @@ const menuItems: menuItem[] = [
 ];
 
 export const Header = () => {
+  const [active, setActive] = useState<number | boolean>(0);
+  const [drawerVisible, setDrawerVisible] = useState(false);
+
   const themeContext = useContext(ThemeContext);
 
   const { pathname } = useLocation<{ pathname: string }>();
-  const phoneNumber = PageSvc.getContactProps('phones')[0];
+  const phoneNumber = PageSvc.getContactProps('phones');
   const history = useHistory();
   const classes = useStyles(themeContext.theme);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const isSmMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const [active, setActive] = useState<number | boolean>(0);
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-
-  const clickHandler = (path: string): void => {
-    history.push(path);
-  };
-
   useEffect(() => {
     const currentURL = '/' + pathname.split('/')[1];
-    const indexActive = menuItems.findIndex((menuItem) => menuItem.pageURL === currentURL);
+    const indexActive = menuItems.findIndex(
+      (menuItem) => menuItem.pageURL === currentURL
+    );
     setActive(indexActive < 0 ? false : indexActive);
   }, [pathname]);
 
@@ -113,28 +121,14 @@ export const Header = () => {
     <Tab
       label={item.title}
       className={classes.tab}
-      onClick={() => clickHandler(item.pageURL)}
+      onClick={() => history.push(item.pageURL)}
       key={'menu-item-' + index}
     />
   ));
 
-  const handleMenuClick = (url: string): void => {
-    history.push(url);
-    setAnchorEl(null);
+  const handleDrawerVisible = () => {
+    setDrawerVisible((currentDrawerVisible) => !currentDrawerVisible);
   };
-
-  const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const mobileItems = menuItems.map((menuItem, index) => {
-    const { title, pageURL } = menuItem;
-    return (
-      <MenuItem onClick={() => handleMenuClick(pageURL)} key={'mobile-item-' + index}>
-        {title}
-      </MenuItem>
-    );
-  });
 
   return (
     <AppBar className={classes.appBar}>
@@ -156,20 +150,29 @@ export const Header = () => {
                   color: 'white',
                   marginRight: 30,
                 }}
-                href={`tel:${phoneNumber}`}
+                href={`tel:${phoneNumber[0]}`}
               >
                 <PhoneIcon />
               </IconButton>
             ) : (
-              <Button
-                startIcon={<PhoneIcon />}
-                variant="outlined"
-                style={{ marginRight: 30 }}
-                href={`tel:${phoneNumber}`}
-                className={classes.Phone}
-              >
-                {phoneNumber}
-              </Button>
+              <>
+                <Button
+                  startIcon={<PhoneIphoneIcon />}
+                  variant="outlined"
+                  href={`tel:${phoneNumber[0]}`}
+                  className={classes.Phone}
+                >
+                  {phoneNumber[0]}
+                </Button>
+                <Button
+                  startIcon={<PhoneIcon />}
+                  variant="outlined"
+                  href={`tel:${phoneNumber[1]}`}
+                  className={classes.Phone}
+                >
+                  {phoneNumber[1]}
+                </Button>
+              </>
             )}
 
             <IconButton
@@ -177,36 +180,41 @@ export const Header = () => {
               className={classes.menuButton}
               color="inherit"
               aria-label="menu"
-              onClick={handleMenu}
+              onClick={handleDrawerVisible}
             >
               <MenuIcon />
             </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorEl}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={open}
-              onClose={() => setAnchorEl(null)}
-            >
-              {mobileItems}
-            </Menu>
+            <MenuDrawer
+              visibleCallback={(currentVisible: boolean) =>
+                setDrawerVisible(currentVisible)
+              }
+              visible={drawerVisible}
+              menuItems={menuItems}
+            />
           </Box>
         ) : (
           <>
             <Tabs value={active} classes={{ indicator: classes.indicator }}>
               {navTabs}
             </Tabs>
-            <Button startIcon={<PhoneIcon />} variant="outlined" href={`tel:${phoneNumber}`} className={classes.Phone}>
-              {phoneNumber}
-            </Button>
+            <Box className={classes.PhonesContainer}>
+              <Button
+                startIcon={<PhoneIphoneIcon />}
+                variant="outlined"
+                href={`tel:${phoneNumber[0]}`}
+                className={classes.Phone}
+              >
+                {phoneNumber[0]}
+              </Button>
+              <Button
+                startIcon={<PhoneIcon />}
+                variant="outlined"
+                href={`tel:${phoneNumber[1]}`}
+                className={classes.Phone}
+              >
+                {phoneNumber[1]}
+              </Button>
+            </Box>
           </>
         )}
       </Toolbar>

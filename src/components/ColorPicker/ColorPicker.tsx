@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 import Button from '@material-ui/core/Button';
@@ -37,13 +37,21 @@ export default function ColorPicker() {
 
   const themeContext = useContext(ThemeContext);
   const [colors, setColors] = useState({ ...themeContext.theme });
-  const [visible, setVisible] = React.useState(false);
+  const [visible, setVisible] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setColors({ ...colors, [name]: value });
     themeContext.setTheme({ [name]: value });
   };
+
+  const reset = (): void => {
+    themeContext.reset();
+  };
+
+  useEffect(() => {
+    setColors({ ...themeContext.theme });
+  }, [themeContext.theme]);
 
   const content = () => (
     <div className={classes.fullList} role="presentation">
@@ -60,13 +68,7 @@ export default function ColorPicker() {
             />
           </label>
         ))}
-        <Button
-          onClick={() => {
-            themeContext.reset();
-          }}
-          variant="contained"
-          color="secondary"
-        >
+        <Button onClick={reset} variant="contained" color="secondary">
           Reset
         </Button>
       </form>

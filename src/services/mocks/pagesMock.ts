@@ -8,9 +8,9 @@ export const pages: ICategory[] = [
       {
         title: '',
         url: '',
-        content: `<p>We have been in the market since 2016 developing building projects and supplying our clients with bespoke timber and aluminium doors and windows. Our clients have been so pleased with the design and quality of the windows and we have received so many referrals from them that we have decided to redesign the business and focus on the dors and windows only.</p>
+        content: `<p>We have been in the market since 2016 developing building projects and supplying our clients with bespoke timber and aluminium doors and windows. Our clients have been so pleased with the design and quality of the windows and we have received so many referrals from them that we have decided to redesign the business and focus on the doors and windows only.</p>
 <p>We offer European quality windows that protect from temperatures of up to -30C.</p>
-<p>We are commited to lead times preagreed with our clients of between 5 and 10 weeks, depending on the product. Full guarantees and certificates provided.</p>
+<p>We are committed to lead times pre-agreed with our clients of between 5 and 10 weeks, depending on the product. Full guarantees and certificates provided.</p>
 <p><b>We offer competitive prices and will try to beat any other quotes you show us!<b></p>`,
       },
     ],
