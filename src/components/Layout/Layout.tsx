@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route } from 'react-router';
+import { Switch, Route, Redirect, useLocation } from 'react-router';
 
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
@@ -51,6 +51,7 @@ const useStyles = makeStyles((theme) => {
 
 export const Layout = () => {
   const classes = useStyles();
+  const { pathname } = useLocation();
 
   return (
     <div className={classes.body}>
@@ -60,11 +61,13 @@ export const Layout = () => {
         </Grid>
         <Grid container item className={classes.Content}>
           <Switch>
+            <Redirect from="/:url*(/+)" to={pathname.slice(0, -1)} />
             <Route path={['', '/']} exact component={Home} />
-            <Route path="/gallery" exact component={Gallery} />
-            <Route path="/contact" exact component={Contact} />
-            <Route path="/:category" exact component={Page} />
-            <Route path="/:category/:subPage" exact component={SubPage} />
+            <Route path="/gallery" component={Gallery} />
+            <Route path="/contact" component={Contact} />
+            <Route path={['/:category', '/:category/']} exact component={Page} />
+            <Route path="/:category/:subPage" component={SubPage} />
+            <Route component={Home} />
           </Switch>
         </Grid>
         <Grid container item className={classes.footer}>

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { SideBar } from '../../components/SideBar/SideBar';
 import { PageSvc } from '../../services/PageSvc';
 import { Title } from '../../components/Title/Title';
@@ -37,12 +37,18 @@ const useStyle = makeStyles((theme) => {
   };
 });
 export const SubPage = () => {
+  const { category, subPage } = useParams<IParams>();
+  const page = PageSvc.getSubPage(category, subPage);
+  const history = useHistory();
+  if (!page) {
+    history.replace('/');
+  }
+
+  const sideBarLinks = PageSvc.getSideBarLinks(category);
+
   const classes = useStyle();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-  const { category, subPage } = useParams<IParams>();
-  const sideBarLinks = PageSvc.getSideBarLinks(category);
-  const page = PageSvc.getSubPage(category, subPage);
 
   return (
     <Grid

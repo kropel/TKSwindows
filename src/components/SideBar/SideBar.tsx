@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useMemo } from 'react';
 
 import { useHistory, useLocation } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
@@ -89,27 +89,35 @@ type TSideBarProps = {
 
 export const SideBar: FC<TSideBarProps> = ({ sideBarLinks }) => {
   const classes = useStyle();
-  const { pathname } = useLocation();
+  let { pathname } = useLocation();
   const history = useHistory();
 
+  pathname = /\/$/.test(pathname) ? pathname.slice(0, -1) : pathname;
+
+  const getClasses = useMemo(
+    () => (url: string): string =>
+      pathname === url ? `${classes.Link} ${classes.Active}` : `${classes.Link}`,
+    [classes.Active, classes.Link, pathname]
+  );
+
+  const tabs = useMemo(
+    () =>
+      sideBarLinks.map(({ title, url }, index) => (
+        <Link
+          component="button"
+          id={`vertical-tab-${index}`}
+          key={`vertical-tab-${index}`}
+          className={getClasses(url)}
+          onClick={() => {
+            history.push(url);
+          }}
+        >
+          {title}
+        </Link>
+      )),
+    [sideBarLinks, getClasses, history]
+  );
   if (sideBarLinks.length === 0 || sideBarLinks[0].title === '') return <></>;
-
-  const getClasses = (url: string): string =>
-    pathname === url ? `${classes.Link} ${classes.Active}` : `${classes.Link}`;
-
-  const tabs = sideBarLinks.map(({ title, url }, index) => (
-    <Link
-      component="button"
-      id={`vertical-tab-${index}`}
-      key={`vertical-tab-${index}`}
-      className={getClasses(url)}
-      onClick={() => {
-        history.push(url);
-      }}
-    >
-      {title}
-    </Link>
-  ));
 
   const sideBar = <Box className={classes.SideBar}>{tabs}</Box>;
   return <Box className={classes.Container}>{sideBar}</Box>;

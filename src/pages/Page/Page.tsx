@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
 import { PageSvc } from '../../services/PageSvc';
 import { SideBar } from '../../components/SideBar/SideBar';
@@ -38,14 +38,17 @@ const useStyle = makeStyles((theme) => {
 });
 
 export const Page = () => {
+  const location = useLocation();
+  const history = useHistory();
+  const pathname = location.pathname.replace(/\//g, '');
+  const category = PageSvc.getCategory(pathname);
+  if (!category) {
+    history.replace('/');
+  }
+
   const classes = useStyle();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-
-  const location = useLocation();
-  const pathname = location.pathname.slice(1);
-
-  const category = PageSvc.getCategory(pathname);
 
   const pages = category?.subPages;
   const categoryName = category?.category;
